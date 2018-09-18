@@ -8,6 +8,7 @@ date: 2017-06-02T17:49:36+08:00
 发展，人员有流动，队伍在壮大，头口定接口的方式的弊端立马就显现出来了，于是小组里面
 搭建了一个文档服务，大家都开始用markdown写接口，感觉高大上的感觉，但也是简陋，写的
 比较粗糙，类似于下面这种：
+
 ```
     Url: www.example.com
 
@@ -25,6 +26,7 @@ date: 2017-06-02T17:49:36+08:00
             ...
         }
 ```
+
 每次客户端要接口很紧，写完就立马去实现接口了，当然，因为后续接口可能会有一些变化，也得先改文档
 再更新代码，有时候忘了，也就不了了之了，总之感觉就是用着很不爽。
 
@@ -37,6 +39,7 @@ swagger里面去了，很是不错，觉得写代码即是文档这个概念很�
 个人觉得swagger最大的好处是实现了可文档化的代码编写和注释方法，我们写代码总是要写注释，依照swagger的规范，我们能写出可文档化的注释，岂不妙哉！
 swagger的golang文档地址goswagger
 以下是是根据goswagger文档描述写的一个demo:
+
 ```go
 // Package classification Petstore API.
 //
@@ -135,9 +138,11 @@ func main() {
 ```
 
 将注释导出一个json文件
+
 ``` bash
 $ swagger generate spec -o ./hello.json
 ```
+
 为避免语法错误，应使用{% link swagger-editor https://swagger.io/swagger-editor/ %}进行预览，
 我只能说so beautiful!
 写规范的代码，不断review!
