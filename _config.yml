@@ -82,6 +82,6 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/wusphinx/wusphinx.github.io.git
+  repo: https://gh_token@github.com/wusphinx/wusphinx.github.io.git
   branch:
   message:
