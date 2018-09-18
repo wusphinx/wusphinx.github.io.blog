@@ -1,9 +1,13 @@
 language: node_js
+
 node_js: stable
+
 install:
 - npm install
+
 script:
 - hexo g
+
 after_script:
 - cd ./public
 - git init
@@ -12,9 +16,11 @@ after_script:
 - git add .
 - git commit -m "Update blog"
 - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
+
 branches:
   only:
   - master
+  
 env:
   GH_REF: github.com/wusphinx/wusphinx.github.io.git
   secure: NFO9KN9pLl4Tr4WOcujd5GE5s3lBFvOe9Pf2DolX8BqlsziP80IsJWMqoiZtVpNYW3Pa7kYsnCm8R0SjEHmi7qcOEMvy/PU1Hrdxk0L4ndCJ3f4EssalPfNcPm2B95TI8iSMgM/tLF6OzQD1xuHzCjPufpeHN/s0sXwkSmk8ITDqbo8ACIGxxez7ZlN1R/mjsgttUJ6/pOpMg0PZWfCBs8nLTOBLzZ+2RUireXaYShto67z3rZ219n3QPpAoBcbEHsZBi+7644GajdDupm/evtbwkp9vc5oEZjgCiB3ISgJ16ohpXybJyG6Nebhp+uryZU0R/Hg6XWM7FGde4TShMPF6FhjWJ6+bQtUjqWncN7tTXEgUnzGJafm/ZfOxGRLKacjnYXZvavuVY7KITZackqkEV/MNPQ9ZRlb1uoTXk8sn38LiRWeYlFKdfZ6xa7zoDUTRj3GD7HD1dEw6dCFMr69wVLlvD5/jCcaghxeJCVxQ00HMjmf20KiudBluSXlY1KAlkBw01Gc8f+izU4V/vbbyEgT6paX6AlxB4+aa2a9BQg4k4QGcnb+L5ps1UaaEnPppswFLm1RvL4avEtbB+HNKIRcNzNxyntnutGZMIWsPmbO5cJhRFeIj4LOh7Nti2+VzpssG07RNukND34iYvlhQqpJERBPBoJjk4g1+bNA=
