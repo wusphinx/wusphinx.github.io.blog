@@ -21,5 +21,8 @@ script:
 after_script:
   - git config user.name "wusphinx"
   - git config user.email "wu.sphinx@gmail.com"
-  - sed -i "s/gh_token/${GH_TOKEN}/g" ./_config.yml
-  - hexo deploy
+  - cd ./public
+  - git init
+  - git add --all .
+  - git commit -m "Auto Deploy"
+  - git push --quiet --force https://${GH_TOKEN}@github.com/wusphinx/wusphinx.github.io.git
