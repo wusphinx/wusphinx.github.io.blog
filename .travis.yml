@@ -16,6 +16,7 @@ install:
 script:
   - hexo clean
   - hexo generate
+  - rm -rf .deploy_git || true
 
 after_script:
   - git config user.name "wusphinx"
