@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-cn,en,default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.1" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="先来看一段golang12345678910111213141516171819package mainimport (	&quot;encoding/json&quot;	&quot;fmt&quot;)func main() &amp;#123;	data := map[string]string&amp;#123;		&quot;str0&quot;: &quot;Hello, world&quot;,		&quot;str1&quot;: &quot;&amp;lt;&quot;,		&quot;str2&quot;: &quot;&amp;gt;&quot;,		&quot;str3&quot;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang中特殊字符的json序列化">
+<meta property="og:url" content="http://wusphinx.github.io/2018/06/19/golang中特殊字符的json序列化/index.html">
+<meta property="og:site_name" content="sphinx&#39;s blog">
+<meta property="og:description" content="先来看一段golang12345678910111213141516171819package mainimport (	&quot;encoding/json&quot;	&quot;fmt&quot;)func main() &amp;#123;	data := map[string]string&amp;#123;		&quot;str0&quot;: &quot;Hello, world&quot;,		&quot;str1&quot;: &quot;&amp;lt;&quot;,		&quot;str2&quot;: &quot;&amp;gt;&quot;,		&quot;str3&quot;">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2018-09-18T17:40:50.161Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="golang中特殊字符的json序列化">
+<meta name="twitter:description" content="先来看一段golang12345678910111213141516171819package mainimport (	&quot;encoding/json&quot;	&quot;fmt&quot;)func main() &amp;#123;	data := map[string]string&amp;#123;		&quot;str0&quot;: &quot;Hello, world&quot;,		&quot;str1&quot;: &quot;&amp;lt;&quot;,		&quot;str2&quot;: &quot;&amp;gt;&quot;,		&quot;str3&quot;">
+
+
+
+
+
+
+  <link rel="canonical" href="http://wusphinx.github.io/2018/06/19/golang中特殊字符的json序列化/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>golang中特殊字符的json序列化 | sphinx's blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">sphinx's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">open free share</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wusphinx.github.io/2018/06/19/golang中特殊字符的json序列化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wusphinx">
+      <meta itemprop="description" content="just for fun">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sphinx's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">golang中特殊字符的json序列化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-06-19 01:40:14" itemprop="dateCreated datePublished" datetime="2018-06-19T01:40:14+08:00">2018-06-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-09-19 01:40:50" itemprop="dateModified" datetime="2018-09-19T01:40:50+08:00">2018-09-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>先来看一段<code>golang</code><br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"encoding/json"</span></span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	data := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;</span><br><span class="line">		<span class="string">"str0"</span>: <span class="string">"Hello, world"</span>,</span><br><span class="line">		<span class="string">"str1"</span>: <span class="string">"&lt;"</span>,</span><br><span class="line">		<span class="string">"str2"</span>: <span class="string">"&gt;"</span>,</span><br><span class="line">		<span class="string">"str3"</span>: <span class="string">"&amp;"</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	jsonStr, _ := json.Marshal(data)</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="keyword">string</span>(jsonStr))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;str0&quot;:&quot;Hello, world&quot;,&quot;str1&quot;:&quot;\u003c&quot;,&quot;str2&quot;:&quot;\u003e&quot;,&quot;str3&quot;:&quot;\u0026&quot;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>先来段<code>rust</code>的<br><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="keyword">crate</span> rustc_serialize;</span><br><span class="line"><span class="keyword">use</span> rustc_serialize::json;</span><br><span class="line"><span class="keyword">use</span> std::collections::HashMap;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>()&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> data =  HashMap::new();</span><br><span class="line">    data.insert(<span class="string">"str0"</span>,<span class="string">"Hello, world"</span>);</span><br><span class="line">    data.insert(<span class="string">"str1"</span>,<span class="string">"&lt;"</span>);</span><br><span class="line">    data.insert(<span class="string">"str2"</span>,<span class="string">"&gt;"</span>);</span><br><span class="line">    data.insert(<span class="string">"str3"</span>,<span class="string">"&amp;"</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;&#125;"</span>, json::encode(&amp;data).unwrap());</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;str0&quot;:&quot;Hello, world&quot;,&quot;str2&quot;:&quot;&gt;&quot;,&quot;str1&quot;:&quot;&lt;&quot;,&quot;str3&quot;:&quot;&amp;&quot;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再来看段<code>python</code>的<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">data = dict(str0=<span class="string">'Hello, world'</span>,str1=<span class="string">'&lt;'</span>,str2=<span class="string">'&gt;'</span>,str3=<span class="string">'&amp;'</span>)</span><br><span class="line"></span><br><span class="line">print(json.dumps(data))</span><br></pre></td></tr></table></figure></p>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;str0&quot;: &quot;Hello, world&quot;, &quot;str1&quot;: &quot;&lt;&quot;, &quot;str2&quot;: &quot;&gt;&quot;, &quot;str3&quot;: &quot;&amp;&quot;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再看看java的<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.json.simple.JSONObject;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JsonDemo</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        JSONObject obj = <span class="keyword">new</span> JSONObject();</span><br><span class="line"></span><br><span class="line">        obj.put(<span class="string">"str0"</span>, <span class="string">"Hello, world"</span>);</span><br><span class="line">        obj.put(<span class="string">"str1"</span>, <span class="string">"&lt;"</span>);</span><br><span class="line">        obj.put(<span class="string">"str2"</span>, <span class="string">"&gt;"</span>);</span><br><span class="line">        obj.put(<span class="string">"str3"</span>, <span class="string">"&amp;"</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;str3&quot;:&quot;&amp;&quot;,&quot;str1&quot;:&quot;&lt;&quot;,&quot;str2&quot;:&quot;&gt;&quot;,&quot;str0&quot;:&quot;Hello, world&quot;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到<code>python</code>、<code>rust</code>和<code>java</code>对这4个字符串序列化结果几乎是相同的了(除了java序列化后顺序有微小变化外），golang明显对 <em>&lt;</em> ,<br><em>&gt;</em> , <em>&amp;</em> 进行了转义处理，看看文档怎么说的</p>
+<blockquote>
+<p>// String values encode as JSON strings coerced to valid UTF-8,<br>// replacing invalid bytes with the Unicode replacement rune.<br>// The angle brackets “&lt;” and “&gt;” are escaped to “\u003c” and “\u003e”<br>// to keep some browsers from misinterpreting JSON output as HTML.<br>// Ampersand “&amp;” is also escaped to “\u0026” for the same reason.  </p>
+</blockquote>
+<p><em>&amp;</em> 被转义是为了防止一些浏览器将JSON输出曲解为HTML，<br>而 <em>&lt;</em> ,<em>&gt;</em> 被强制转义是因为golang认为这俩是无效字节（这点比较奇怪），<br>我如果技术栈都是golang还好说，如果跨语言跨部门合作一定需要注意这点（已踩坑）……</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/25/我是如何开始参与开源项目的/" rel="next" title="我是如何开始参与开源项目的">
+                <i class="fa fa-chevron-left"></i> 我是如何开始参与开源项目的
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/11/Go语言的栈和指针机制/" rel="prev" title="Go语言的栈和指针机制 ">
+                Go语言的栈和指针机制  <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">wusphinx</p>
+              <p class="site-description motion-element" itemprop="description">just for fun</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wusphinx</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
